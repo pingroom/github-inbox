@@ -1,0 +1,5 @@
+# Copy to .dev.vars for `npm run dev`. .dev.vars is gitignored.
+GITHUB_TOKEN=ghp_replace-me
+PINGROOM_WEBHOOK_URL=https://api.pingroom.io/api/webhooks/ROOMCODE/SECRET
+# GITHUB_REASONS=all
+# PINGROOM_API_BASE=http://localhost:8000

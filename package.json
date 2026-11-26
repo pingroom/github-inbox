@@ -1,0 +1,30 @@
+{
+  "name": "pingroom-github-inbox",
+  "version": "0.1.0",
+  "description": "A Cloudflare Worker that sends your GitHub notifications (mentions, review requests, assignments) to a PingRoom room as Pings.",
+  "private": true,
+  "type": "module",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/pingroom/github-inbox.git"
+  },
+  "scripts": {
+    "dev": "wrangler dev --test-scheduled",
+    "deploy": "wrangler deploy",
+    "tail": "wrangler tail",
+    "test": "vitest run",
+    "typecheck": "tsc --noEmit"
+  },
+  "devDependencies": {
+    "@cloudflare/workers-types": "5.20260801.1",
+    "typescript": "5.9.3",
+    "vitest": "3.2.6",
+    "wrangler": "4.118.0"
+  },
+  "allowScripts": {
+    "esbuild@0.28.2": true,
+    "esbuild@0.28.1": true,
+    "workerd@1.20260730.1": true
+  }
+}

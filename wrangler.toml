@@ -1,0 +1,51 @@
+name = "pingroom-github-inbox"
+main = "src/worker.ts"
+compatibility_date = "2026-07-01"
+compatibility_flags = ["global_fetch_strictly_public"]
+
+# No HTTP surface at all: no workers.dev address, no preview URLs, and no
+# route block. The Worker only runs on its schedule.
+workers_dev = false
+preview_urls = false
+
+[triggers]
+crons = ["* * * * *"]
+
+[[durable_objects.bindings]]
+name = "INBOX"
+class_name = "GitHubInbox"
+
+[[migrations]]
+tag = "v1"
+new_sqlite_classes = ["GitHubInbox"]
+
+# ---------------------------------------------------------------------------
+# Secrets (both required)
+# ---------------------------------------------------------------------------
+# These are SECRETS and MUST NOT live in [vars], which is plaintext and
+# committed. Set them at the edge:
+#
+#     npx wrangler secret put GITHUB_TOKEN
+#     npx wrangler secret put PINGROOM_WEBHOOK_URL
+#
+# GITHUB_TOKEN          A classic personal access token with only the
+#                       `notifications` scope. GitHub's notifications API does
+#                       not accept fine-grained tokens.
+# PINGROOM_WEBHOOK_URL  The room's incoming webhook URL, as PingRoom shows it:
+#                       https://api.pingroom.io/api/webhooks/ROOMCODE/SECRET
+#
+# For local dev, put them in `.dev.vars` (gitignored) instead.
+
+# ---------------------------------------------------------------------------
+# Configuration (optional)
+# ---------------------------------------------------------------------------
+# GITHUB_REASONS: which notification reasons become Pings. Unset means every
+# reason except `subscribed` (threads in repositories you watch) and
+# `ci_activity` (workflow runs you triggered). `all` passes everything; a list
+# such as "mention,review_requested,assign" passes only those.
+#
+# PINGROOM_API_BASE: the only PingRoom origin this Worker calls, default
+# https://api.pingroom.io. PINGROOM_WEBHOOK_URL must be on it.
+#
+# [vars]
+# GITHUB_REASONS = "mention,team_mention,review_requested,assign"
